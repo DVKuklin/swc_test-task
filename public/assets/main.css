@@ -1,0 +1,10 @@
+.main-form {
+    width: 100%;
+    max-width: 400px;
+}
+
+.margin-under-navbar {
+    height: 15px;
+    width: 100%;
+    background-color: #f4f6f9;
+}
