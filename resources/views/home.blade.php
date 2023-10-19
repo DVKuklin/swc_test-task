@@ -1,5 +1,5 @@
 @extends('templates.main-template')
 
-@section('main')
-
+@section('content')
+ content главная страница
 @endsection
