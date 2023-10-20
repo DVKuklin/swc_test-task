@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AuthController, EventsController, UsersController, ParticipantsController};
+use App\Http\Controllers\{AuthController, EventsController, UsersController, ParticipantsController, PagesController};
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +14,7 @@ use App\Http\Controllers\{AuthController, EventsController, UsersController, Par
 |
 */
 
-Route::middleware('auth')->name('home')->get('/', function () {
-    return view('home');
-});
+Route::middleware('auth')->name('home')->get('/',[PagesController::class, 'index']);
 
 Route::controller(AuthController::class)->group(function() {
     Route::get('login','loginPage')->name('login');
