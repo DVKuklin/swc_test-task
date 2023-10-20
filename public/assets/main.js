@@ -24,26 +24,43 @@ function getEventsList() {
             $('#all_events_list').empty();
             $('#all_events_list').append(`<li class="nav-header font-weight-bold"><h4>Все события</h4></li>`);
             for (let i = 0; i<all_events.length; i++) {
-                $('#all_events_list').append(`
+                if (all_events[i].id == document.event_id) {
+                    $('#all_events_list').append(`
+                    <li class="nav-item">
+                            <p class="nav-link">${all_events[i].title}</p>
+                    </li>
+                `);
+                } else {
+                    $('#all_events_list').append(`
                     <li class="nav-item">
                         <a href="/events/${all_events[i].id}" class="nav-link">
                             <p>${all_events[i].title}</p>
                         </a>
                     </li>
                 `);
+                }
             }
 
             let my_events = data.my_events;
             $('#my_events_list').empty();
             $('#my_events_list').append(`<li class="nav-header font-weight-bold"><h4>Мои события</h4></li>`);
             for (let i = 0; i<my_events.length; i++) {
-                $('#my_events_list').append(`
+                if (my_events[i].id == document.event_id) {
+                    $('#my_events_list').append(`
+                        <li class="nav-item">
+                            <p class="nav-link">${my_events[i].title}</p>
+                        </li>
+                    `);
+                } else {
+                    $('#my_events_list').append(`
                     <li class="nav-item">
                         <a href="/events/${my_events[i].id}" class="nav-link">
                             <p>${my_events[i].title}</p>
                         </a>
                     </li>
                 `);
+                }
+
             }           
         },
         error: function (jqXHR, exception) {
@@ -53,7 +70,6 @@ function getEventsList() {
 }
 
 getEventsList();
-setInterval(getEventsList, 30000)
 
 function takePart(event_id) {
     $.ajax({
@@ -110,6 +126,7 @@ function getParticipantList() {
     });
 }
 
+setInterval(getEventsList, 30000)
 if (document.event_id) {
     setInterval(getParticipantList, 30000);
 }
