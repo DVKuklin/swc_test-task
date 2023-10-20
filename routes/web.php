@@ -50,5 +50,6 @@ Route::prefix('users')
         ->controller(UsersController::class)
         ->group(function() {
     Route::get('get','getUser');
+    Route::get('{id}','userPage');
 });
 
