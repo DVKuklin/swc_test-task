@@ -9,6 +9,10 @@ use Hash;
 
 class AuthController extends Controller
 {
+    public function registerPage() {
+        return view('register');
+    }
+
     public function register(Request $request) {
         if (Auth::user()) {
             return redirect()->route('home');
@@ -52,7 +56,7 @@ class AuthController extends Controller
 
             return redirect()->route('login')->withErrors(['Что то пошло не так.','Ваши данные в базу записались, но авторизоваться Вы не смогли.','Попробуйте просто авторизоваться.']);
 
-        }catch(Exception $e){
+        }catch(\Exception $e){
             return redirect()->route('register')->withErrors(['Что то пошло не так, попробуй ещё раз.']);
         }
     }
@@ -65,6 +69,10 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('login')->with('success', 'Вы успешно вышли из приложения.');
+    }
+
+    public function loginPage() {
+        return view('login');
     }
 
     public function login(Request $request) {
