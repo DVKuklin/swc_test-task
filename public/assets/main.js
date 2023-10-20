@@ -20,7 +20,6 @@ function getEventsList() {
         url: '/events',
         method: 'get',
         success: function (data) {
-            console.log(data);
             let all_events = data.all_events;
             $('#all_events_list').empty();
             $('#all_events_list').append(`<li class="nav-header font-weight-bold"><h4>Все события</h4></li>`);
@@ -46,19 +45,6 @@ function getEventsList() {
                     </li>
                 `);
             }           
-
-
-            // let my_events = data.my_events;
-            
-            // for (let i = my_events.length-1; i>=0; i--) {
-            //     $('#all_events_list').prepend(`
-            //         <li class="nav-item">
-            //             <a href="/events/${my_events[i].id}" class="nav-link">
-            //                 <p>${my_events[i].title}</p>
-            //             </a>
-            //         </li>
-            //     `);
-            // }
         },
         error: function (jqXHR, exception) {
           console.log('Ошибка интернета.')
@@ -67,5 +53,63 @@ function getEventsList() {
 }
 
 getEventsList();
-
 setInterval(getEventsList, 30000)
+
+function takePart(event_id) {
+    $.ajax({
+        url: '/participants/add',
+        method: 'post',
+        data: {event_id: event_id},
+        success: function (data) {
+            if (data.success) {
+                $('#buttonTekePart').addClass('d-none');
+                $('#buttonRefusePart').removeClass('d-none');
+                getParticipantList();
+            }
+        },
+        error: function (jqXHR, exception) {
+          console.log('Ошибка интернета.')
+        }
+    });
+}
+
+function refusePart(event_id) {
+    $.ajax({
+        url: '/participants/remove',
+        method: 'post',
+        data: {event_id: event_id},
+        success: function (data) {
+            if (data.success) {
+                $('#buttonTekePart').removeClass('d-none');
+                $('#buttonRefusePart').addClass('d-none');
+                getParticipantList();
+            }
+        },
+        error: function (jqXHR, exception) {
+          console.log('Ошибка интернета.')
+        }
+    });
+}
+
+function getParticipantList() {
+    $.ajax({
+        url: '/participants',
+        method: 'post',
+        data: {event_id: document.event_id},
+        success: function (data) {
+            if (data.success) {
+                $('#participantList').empty();
+                data.participants.forEach((item) => {
+                    $('#participantList').append(`<li><a href="/users/${item.id}">${item.name} ${item.surname}</a></li>`);
+                })
+            }
+        },
+        error: function (jqXHR, exception) {
+          console.log('Ошибка интернета.')
+        }
+    });
+}
+
+if (document.event_id) {
+    setInterval(getParticipantList, 30000);
+}

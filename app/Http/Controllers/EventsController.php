@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Event;
+use App\Models\{Event, Participant};
 
 class EventsController extends Controller
 {
@@ -48,15 +48,11 @@ class EventsController extends Controller
         $event = Event::find($id);
         $event->date = mb_substr($event->created_at,0,10);
         $user = auth()->user();
-        $is_owner = false;
-        if ($event->user_id == $user->id) {
-            $is_owner = true;
-        }
+
+        $is_participant = Participant::where('user_id',$user->id)->where('event_id',$id)->exists();
         return view('event',[
             'event'=>$event,
-            'is_owner' => $is_owner,
-            'is_participant' => false,
+            'is_participant' => $is_participant,
         ]);
     }
-    
 }

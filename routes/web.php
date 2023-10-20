@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AuthController, EventsController, UsersController};
+use App\Http\Controllers\{AuthController, EventsController, UsersController, ParticipantsController};
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +34,15 @@ Route::prefix('events')
     Route::post('create','create');
     Route::get('','getEventsList');
     Route::get('{id}','eventPage');
+});
+
+Route::prefix('participants')
+        ->middleware('auth')
+        ->controller(ParticipantsController::class)
+        ->group(function() {
+    Route::post('add','addParticipant');
+    Route::post('remove','removeParticipant');
+    Route::post('','getParticipantsList');
 });
 
 Route::prefix('users')

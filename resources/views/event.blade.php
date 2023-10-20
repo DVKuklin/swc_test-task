@@ -17,16 +17,25 @@
 </div>
 
 <h3>Участники</h3>
-<ul>
-  <li><a href="#">sdfsdf</li>
+<ul id="participantList">
 
 </ul>
+
 <div class="my-2">
 @if (!$is_participant)
-  <button class="btn btn-success">Принять участие</button>
+  <button id="buttonTekePart" class="btn btn-success" onclick="takePart( {{ $event->id }} )">Принять участие</button>
+  <button id="buttonRefusePart" class="btn btn-danger d-none" onclick="refusePart( {{ $event->id }} )">Отказаться от участия</button>
 @else
-  <button class="btn btn-danger">Отказаться от участия</button>
+  <button id="buttonTekePart" class="btn btn-success d-none" onclick="takePart( {{ $event->id }} )">Принять участие</button>
+  <button id="buttonRefusePart" class="btn btn-danger" onclick="refusePart( {{ $event->id }} )">Отказаться от участия</button>
 @endif
 </div>
 
+<script>
+  document.event_id = {{ $event->id }};
+  
+  window.addEventListener('load',function() {
+    getParticipantList();
+  });
+</script>
 @endsection
