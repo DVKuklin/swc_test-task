@@ -126,7 +126,7 @@ function getParticipantList() {
     });
 }
 
-setInterval(getEventsList, 30000)
+setInterval(getEventsList, 5000)
 if (document.event_id) {
-    setInterval(getParticipantList, 30000);
+    setInterval(getParticipantList, 5000);
 }
